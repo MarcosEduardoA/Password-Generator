@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+xmlns:f="http://xmlns.jcp.org/jsf/core"
+xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Insert title here</title>
+</h:head>
+	<h:body>
+		<h1>Password Generator</h1>
+		
+		<script src="resources/javascript/clipboard.min.js"></script>
+		
+		 <script>
+		      var clipboard = new ClipboardJS('.btn');
+		
+		      clipboard.on('success', function (e) {
+		        console.info('Action:', e.action);
+		        console.info('Text:', e.text);
+		        console.info('Trigger:', e.trigger);
+		      });
+		
+		      clipboard.on('error', function (e) {
+		        console.info('Action:', e.action);
+		        console.info('Text:', e.text);
+		        console.info('Trigger:', e.trigger);
+		      });
+    	</script>
+		
+		<h:form>
+		
+			<p:panelGrid columns="3">
+				<p:inputText value="#{passwordBean.password.password}" id="password"/>
+				<p:commandButton value="Generate" action="#{passwordBean.newPassword}" update="password" id="generateButton"/>
+				<button class="btn" data-clipboard-text="#{passwordBean.password.password}" id="copy" >
+					<img class="clippy" width="13" src="resources/img/copy.png" alt="Copy to clipboard"/>
+				</button>
+				
+				
+			</p:panelGrid>
+			
+			<p:panel header="Modify your password" style="width:50%">
+				<p:panelGrid columns="2">
+					<p:spinner min="1" max="50" id="passwordLenght" value="#{passwordBean.password.lenght}" required="true" requiredMessage="Inform the password size.">
+						<p:ajax process="@this"/>
+					</p:spinner>
+					<p:slider for="passwordLenght" minValue="1" maxValue="50" style="width: 300px"/>
+				</p:panelGrid>
+				<p:selectManyCheckbox id="types" value="#{passwordBean.password.type}" style="margin-top:10px">
+					<f:selectItem itemLabel="Number" itemValue="NUMBER"/>
+					<f:selectItem itemLabel="Uppercase letter" itemValue="UPPER"/>
+					<f:selectItem itemLabel="Lowercase letter" itemValue="LOWER"/>
+					<f:selectItem itemLabel="Symbols" itemValue="SYMBOLS"/>
+				</p:selectManyCheckbox>
+			</p:panel>
+		
+		</h:form>
+	</h:body>
+</html>
